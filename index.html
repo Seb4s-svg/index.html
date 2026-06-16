@@ -78,6 +78,18 @@
   .sc .g{color:var(--orange);font-weight:600}
   .sc p{font-size:14px;margin-bottom:7px;color:#e3e3e3}
   .sc .why{font-size:12.5px;color:var(--grey);font-style:italic;border-top:1px dashed var(--line);padding-top:9px;margin-top:9px}
+  .sc{position:relative}
+  .copybtn{position:absolute;top:14px;right:14px;background:transparent;border:1px solid var(--line);color:var(--grey);font-family:"Poppins";font-size:12px;padding:6px 12px;border-radius:8px;cursor:pointer;z-index:2}
+  .copybtn:hover{border-color:var(--gold);color:var(--gold)}
+  .copybtn.done{border-color:var(--orange);color:var(--orange)}
+  .post{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+  .post .ph{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+  .post .pd{font-family:"Montserrat";font-weight:700;font-size:15px}
+  .post .pt{color:var(--grey);font-size:11px;border:1px solid var(--line);padding:3px 9px;border-radius:20px}
+  .post .guion{color:#cfcfcf;font-size:13.5px;font-style:italic;border-left:2px solid var(--line);padding-left:13px;margin-bottom:12px}
+  .copy{position:relative;background:#101010;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .copy .clbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);font-weight:600;margin-bottom:8px}
+  .copy .body{white-space:pre-wrap;font-size:14px;color:#eaeaea;line-height:1.65;padding-right:84px}
 
   .frame{width:100%;height:80vh;border:1px solid var(--line);border-radius:14px;background:#000}
   .open{display:inline-block;margin-bottom:12px;font-size:14px;color:var(--orange);text-decoration:none;border-bottom:1px dashed rgba(255,107,0,.5)}
@@ -91,10 +103,10 @@
 
   <div class="tabs">
     <button class="tab on" data-p="inicio">Inicio</button>
-    <button class="tab" data-p="plan">Calendario actividades</button>
-    <button class="tab" data-p="grabacion">Grabación (fines de semana)</button>
+    <button class="tab" data-p="plan">Calendario</button>
+    <button class="tab" data-p="grabacion">Grabación</button>
     <button class="tab" data-p="guiones">Guiones</button>
-    <button class="tab" data-p="calendario">Calendario</button>
+    <button class="tab" data-p="textos">Textos listos</button>
     <button class="tab" data-p="leads">Leads en vivo</button>
   </div>
 
@@ -107,7 +119,7 @@
       <a class="tile" href="sistema.html" target="_blank"><div class="i">📘</div><div class="t">Manual del sistema</div><div class="d">El paso a paso, copys y objeciones.</div></a>
       <a class="tile" href="reto.html" target="_blank"><div class="i">🧲</div><div class="t">Landing de captura</div><div class="d">La página que recoge los datos.</div></a>
       <a class="tile" href="Guia_Reto7Dias_FenixPrime.pdf" target="_blank"><div class="i">📄</div><div class="t">Guía Reto 7 Días</div><div class="d">El PDF que se entrega gratis.</div></a>
-      <a class="tile" href="calendario_con_imagenes.html" target="_blank"><div class="i">🗓️</div><div class="t">Calendario de contenido</div><div class="d">Tu calendario de publicaciones.</div></a>
+      <a class="tile" href="calendario_con_imagenes.html" target="_blank"><div class="i">🗓️</div><div class="t">Calendario visual</div><div class="d">Tu calendario con imágenes (versión antigua).</div></a>
       <a class="tile" href="https://wa.me/573144906088" target="_blank"><div class="i">💬</div><div class="t">WhatsApp</div><div class="d">El número de ventas: 314 490 6088.</div></a>
     </div>
     <div class="note"><b>Ritmo del sistema:</b> grabas el fin de semana → publicas toda la semana → los leads caen al panel → el equipo los gestiona y vende. Cada pestaña de arriba es una pieza de ese ritmo.</div>
@@ -281,12 +293,98 @@
     </div>
   </div>
 
-  <!-- CALENDARIO -->
-  <div class="panel" id="calendario">
-    <h2>Calendario de contenido</h2>
-    <p class="lead">Tu calendario de publicaciones. Ábrelo a pantalla completa para editarlo cómodo.</p>
-    <a class="open" href="calendario_con_imagenes.html" target="_blank">↗ Abrir calendario completo en otra pestaña</a>
-    <iframe class="frame" data-src="calendario_final.html" title="Calendario"></iframe>
+  <!-- TEXTOS -->
+  <div class="panel" id="textos">
+    <h2>Textos listos · Semana 1</h2>
+    <p class="lead">El guion de cada Reel y el caption listo para copiar. Graba con el guion, publica con el caption. Reemplaza lo que está en [corchetes] con datos reales.</p>
+
+    <div class="post">
+      <div class="ph"><span class="pd">Lun 22 · 7:00 PM</span><span class="pillar p-mito">Mito</span></div>
+      <div class="guion">Diego a cámara: "¿Te han dicho que comer de noche engorda? Mentira. Lo que engorda no es la hora… es cuánto y qué comes en todo el día. El problema es llegar muerta de hambre en la noche. Cena bien, con proteína y vegetales, y tendrás más energía."</div>
+      <div class="copy"><div class="clbl">Caption</div><div class="body">¿Comer de noche engorda? 🌙 La respuesta te va a sorprender.
+
+No es la hora, es el total del día. Deja de pelear con el reloj y empieza a comer con estrategia.
+
+👉 Te enseño cómo en mi guía gratis. Comenta RETO y te la envío.
+
+#BienestarReal #MitosDeComida #FénixPrime</div></div>
+    </div>
+
+    <div class="post">
+      <div class="ph"><span class="pd">Mar 23 · 7:00 PM</span><span class="pillar p-ad">Antes y Después</span></div>
+      <div class="guion">Muestra el ANTES → "Así llegó [nombre]: cansada, sin energía, probándolo todo." → Muestra el DESPUÉS → "Así está hoy, tras [X] semanas." → Que [nombre] diga 1 frase real. Usa fotos reales y con permiso.</div>
+      <div class="copy"><div class="clbl">Caption</div><div class="body">El cambio de [nombre] en [X] semanas 🔥 (desliza)
+
+No fue suerte ni fuerza de voluntad. Fue seguir un sistema, paso a paso, sin dietas imposibles.
+
+¿Quieres empezar el tuyo? Comenta RETO y te mando la guía gratis.
+
+#TransformaciónReal #AntesYDespués #FénixPrime</div></div>
+    </div>
+
+    <div class="post">
+      <div class="ph"><span class="pd">Mié 24 · 7:00 PM</span><span class="pillar p-valor">Valor</span></div>
+      <div class="guion">Diego a cámara: "3 cosas gratis para más energía desde hoy. Uno: agua apenas te levantes. Dos: proteína en el desayuno. Tres: camina 15 minutos después de almorzar. Empieza hoy con una sola."</div>
+      <div class="copy"><div class="clbl">Caption</div><div class="body">3 cosas GRATIS que te darán más energía desde hoy 🔥
+
+1️⃣ Agua al despertar
+2️⃣ Proteína en el desayuno
+3️⃣ Caminar 15 min después de comer
+
+Esto es solo el comienzo. ¿Quieres el plan completo de 7 días? Comenta RETO.
+
+#EnergíaNatural #HábitosSaludables #FénixPrime</div></div>
+    </div>
+
+    <div class="post">
+      <div class="ph"><span class="pd">Jue 25 · 7:00 PM</span><span class="pillar p-test">Testimonio</span></div>
+      <div class="guion">El cliente responde a cámara: 1) ¿Cómo te sentías antes? 2) ¿Qué intentaste que no funcionó? 3) ¿Qué cambió? 4) ¿Cómo te sientes hoy? Cierras tú: "Resultados como el de [nombre] son de seguir un sistema."</div>
+      <div class="copy"><div class="clbl">Caption</div><div class="body">Escucha a [nombre] en sus propias palabras 🎙️
+
+Llegó cansada y sin resultados después de intentarlo todo. Hoy tiene su energía de vuelta.
+
+Tu historia puede ser la próxima. Comenta RETO y empieza gratis.
+
+#Testimonio #BienestarReal #FénixPrime</div></div>
+    </div>
+
+    <div class="post">
+      <div class="ph"><span class="pd">Vie 26 · 8:00 PM</span><span class="pillar p-cta">CTA Reto</span></div>
+      <div class="guion">Diego a cámara: "Si te despiertas cansada aunque duermas 8 horas, esto es para ti. No es falta de voluntad: es tu metabolismo desregulado. Se reinicia en 7 días sin dietas extremas. Comenta RETO y te envío la guía gratis al privado."</div>
+      <div class="copy"><div class="clbl">Caption</div><div class="body">¿Te despiertas CANSADA aunque duermas 8 horas? 😮‍💨
+
+No es falta de voluntad. Es tu metabolismo desregulado — y se reinicia en 7 días, sin dietas extremas.
+
+Te regalo mi guía Reto 7 Días. Comenta RETO y te la envío al privado, sin costo. 🔥
+
+#BienestarReal #EnergíaNatural #FénixPrime</div></div>
+    </div>
+
+    <div class="post">
+      <div class="ph"><span class="pd">Sáb 27 · 11:00 AM</span><span class="pillar p-hist">Historia</span><span class="pt">🎥 grabar Semana 2</span></div>
+      <div class="guion">Diego a cámara: "Yo también viví agotado. Probé dietas, gimnasio, fuerza de voluntad… nada duraba. Hasta que entendí que no necesitaba esforzarme más, necesitaba un sistema. Por eso creé Fénix Prime, para que tú no pases lo que yo pasé."</div>
+      <div class="copy"><div class="clbl">Caption</div><div class="body">La razón por la que hago esto 👇
+
+Viví el cansancio, las dietas que no funcionan y la frustración. Encontrar un sistema lo cambió todo — y hoy ayudo a otros a lograrlo.
+
+Empieza tu cambio gratis: comenta RETO.
+
+#MiHistoria #Transformación #FénixPrime</div></div>
+    </div>
+
+    <div class="post">
+      <div class="ph"><span class="pd">Dom 28 · 11:00 AM</span><span class="pillar p-ad">Antes y Después</span><span class="pt">🎥 grabar Semana 2</span></div>
+      <div class="guion">Mismo formato del martes, con otro caso real (Caso 2). Antes → historia → después → frase del cliente.</div>
+      <div class="copy"><div class="clbl">Caption</div><div class="body">Otra transformación que me llena de orgullo 🔥 (desliza)
+
+[Nombre] recuperó su energía y su confianza sin pasar hambre. Solo un sistema bien hecho.
+
+¿Lista para la tuya? Comenta RETO y arrancamos.
+
+#AntesYDespués #ResultadosReales #FénixPrime</div></div>
+    </div>
+
+    <div class="note"><b>Tips de la semana:</b> activa subtítulos en cada Reel · repite "comenta RETO" hablado y en texto · acompaña cada post con 2-3 historias del mismo tema · responde rápido los comentarios con RETO.</div>
   </div>
 
   <!-- LEADS -->
@@ -313,6 +411,22 @@
     if(fr && !fr.src){ fr.src=fr.dataset.src; }
     window.scrollTo({top:0,behavior:'smooth'});
   }));
+  // inyecta botón Copiar en cada guion y bloque de caption
+  document.querySelectorAll('.sc, .copy').forEach(c=>{
+    const b=document.createElement('button'); b.className='copybtn'; b.textContent='Copiar'; c.appendChild(b);
+  });
+  document.querySelectorAll('.copybtn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      let text='';
+      const copyEl=btn.closest('.copy');
+      if(copyEl){ const body=copyEl.querySelector('.body'); text=body?body.innerText.trim():''; }
+      else { const card=btn.closest('.sc'); if(card){ const cl=card.cloneNode(true); cl.querySelectorAll('.copybtn,.why,.lbl').forEach(e=>e.remove()); text=cl.innerText.trim(); } }
+      try{ await navigator.clipboard.writeText(text); }
+      catch(e){ const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(_){ } ta.remove(); }
+      btn.textContent='¡Copiado!'; btn.classList.add('done');
+      setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('done');},1700);
+    });
+  });
 </script>
 </body>
 </html>
