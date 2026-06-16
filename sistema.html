@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Captación y Ventas · Fénix Prime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F0F0F; --panel:#161616; --panel2:#1b1b1b; --line:#2b2b2b;
+    --white:#F5F5F5; --grey:#9a9a9a; --gold:#C9A227; --orange:#FF6B00;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--white);font-family:"Poppins",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold)}
+
+  /* layout */
+  .shell{display:grid;grid-template-columns:280px 1fr;max-width:1280px;margin:0 auto;min-height:100vh}
+  /* sidebar */
+  aside{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+    border-right:1px solid var(--line);padding:30px 22px;background:#0c0c0c}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--orange)}
+  .brand b{font-family:"Montserrat";font-weight:800;letter-spacing:.12em;font-size:15px}
+  .brand-sub{color:var(--grey);font-size:12px;letter-spacing:.04em;margin-bottom:26px;padding-left:20px}
+  nav a{display:block;color:#c9c9c9;text-decoration:none;font-size:14px;padding:9px 12px;border-radius:8px;margin-bottom:3px;border-left:2px solid transparent;transition:.18s}
+  nav a:hover{background:#161616;color:var(--white)}
+  nav a.on{background:rgba(201,162,39,.1);border-left-color:var(--gold);color:var(--gold)}
+  nav .num{color:var(--gold);font-weight:600;margin-right:8px;font-size:13px}
+
+  /* main */
+  main{padding:0 0 100px}
+  .hero{padding:64px 56px 54px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;top:-40%;right:-10%;width:50%;height:160%;
+    background:radial-gradient(circle,rgba(255,107,0,.14),rgba(201,162,39,.05) 45%,transparent 70%);filter:blur(30px)}
+  .kick{display:inline-block;background:var(--gold);color:#0d0d0d;font-weight:700;font-size:12px;
+    letter-spacing:.16em;text-transform:uppercase;padding:7px 15px;border-radius:6px;margin-bottom:22px;position:relative;z-index:2}
+  .hero h1{font-family:"Montserrat";font-weight:900;font-size:clamp(32px,4.6vw,52px);line-height:1.05;text-transform:uppercase;position:relative;z-index:2}
+  .hero h1 .o{color:var(--orange)} .hero h1 .g{color:var(--gold)}
+  .hero p{color:#cfcfcf;font-weight:300;font-size:18px;margin-top:18px;max-width:60ch;position:relative;z-index:2}
+
+  section{padding:52px 56px;border-bottom:1px solid var(--line)}
+  .eyebrow{color:var(--orange);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
+  h2{font-family:"Montserrat";font-weight:800;font-size:clamp(24px,3vw,33px);text-transform:uppercase;line-height:1.1;margin-bottom:8px}
+  h3{font-family:"Montserrat";font-weight:700;font-size:20px;margin:30px 0 10px;color:var(--white)}
+  h2 + p.intro{color:var(--grey);font-size:16px;margin-bottom:26px;max-width:70ch}
+  p{margin-bottom:14px}
+
+  /* funnel stages */
+  .funnel{display:grid;gap:14px;margin-top:10px}
+  .stage{display:grid;grid-template-columns:54px 1fr;gap:18px;align-items:center;
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .stage .n{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
+    font-family:"Montserrat";font-weight:800;font-size:20px;color:#0d0d0d;background:linear-gradient(135deg,var(--gold),var(--orange))}
+  .stage h4{font-family:"Montserrat";font-weight:700;font-size:17px;text-transform:uppercase;margin-bottom:2px}
+  .stage p{color:var(--grey);font-size:14px;margin:0}
+
+  /* asset cards */
+  .assets{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:8px}
+  .asset{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;border-top:3px solid var(--gold)}
+  .asset .t{font-family:"Montserrat";font-weight:700;text-transform:uppercase;font-size:15px;margin-bottom:6px}
+  .asset .d{color:var(--grey);font-size:13.5px;margin-bottom:14px}
+  .asset a.link{display:inline-block;font-size:13px;word-break:break-all;color:var(--orange);text-decoration:none;border-bottom:1px dashed rgba(255,107,0,.5);padding-bottom:1px}
+
+  /* numbered steps */
+  ol.steps{list-style:none;counter-reset:s;margin:14px 0}
+  ol.steps li{counter-increment:s;position:relative;padding:4px 0 16px 46px;border-left:1px solid var(--line);margin-left:14px}
+  ol.steps li::before{content:counter(s);position:absolute;left:-15px;top:0;width:30px;height:30px;border-radius:50%;
+    background:var(--panel2);border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;font-weight:600;font-size:13px}
+  ol.steps li b{color:var(--white)}
+  .warn{background:rgba(255,107,0,.08);border:1px solid rgba(255,107,0,.35);border-radius:10px;padding:13px 16px;color:#f3c4a3;font-size:14px;margin:14px 0}
+  .tip{background:rgba(201,162,39,.07);border:1px solid rgba(201,162,39,.3);border-radius:10px;padding:13px 16px;color:#e6d49a;font-size:14px;margin:14px 0}
+
+  /* copy blocks */
+  .copy{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:16px 0;position:relative}
+  .copy .lbl{font-family:"Montserrat";font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:12px;padding-right:90px}
+  .copy .body{white-space:pre-wrap;font-size:14.5px;color:#eaeaea;line-height:1.7}
+  .copy .why{margin-top:12px;font-size:12.5px;color:var(--grey);font-style:italic;border-top:1px dashed var(--line);padding-top:10px}
+  .copybtn{position:absolute;top:16px;right:16px;background:transparent;border:1px solid var(--line);color:var(--grey);
+    font-family:"Poppins";font-size:12px;padding:6px 12px;border-radius:8px;cursor:pointer;transition:.18s}
+  .copybtn:hover{border-color:var(--gold);color:var(--gold)}
+  .copybtn.done{border-color:var(--orange);color:var(--orange)}
+
+  /* checklist */
+  ul.check{list-style:none;margin-top:10px}
+  ul.check li{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+  ul.check li .box{flex:none;width:20px;height:20px;border-radius:5px;border:1.5px solid var(--gold);margin-top:2px}
+
+  footer{padding:34px 56px;color:#6a6a6a;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer b{color:var(--gold);font-family:"Montserrat";letter-spacing:.12em}
+
+  /* mobile */
+  .menutoggle{display:none}
+  @media(max-width:900px){
+    .shell{grid-template-columns:1fr}
+    aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line)}
+    nav{display:none} nav.open{display:block}
+    .menutoggle{display:block;background:var(--panel);border:1px solid var(--line);color:var(--white);
+      width:100%;text-align:left;padding:12px 14px;border-radius:10px;font-family:"Poppins";font-size:14px;cursor:pointer;margin-top:10px}
+    .hero,section,footer{padding-left:24px;padding-right:24px}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside>
+    <div class="brand"><span class="dot"></span><b>FÉNIX PRIME</b></div>
+    <div class="brand-sub">Sistema de captación y ventas</div>
+    <button class="menutoggle" onclick="document.getElementById('nav').classList.toggle('open')">☰ Menú</button>
+    <nav id="nav">
+      <a href="#vision"><span class="num">0</span>Cómo funciona</a>
+      <a href="#activos"><span class="num">1</span>Tus activos</a>
+      <a href="#config"><span class="num">2</span>Configuración</a>
+      <a href="#copys"><span class="num">3</span>Copys para publicar</a>
+      <a href="#nutricion"><span class="num">4</span>Nutrición 5 días</a>
+      <a href="#objeciones"><span class="num">5</span>Objeciones</a>
+      <a href="#reglas"><span class="num">6</span>Reglas de oro</a>
+      <a href="#lanzamiento"><span class="num">7</span>Checklist</a>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="hero">
+      <span class="kick">Manual operativo</span>
+      <h1>Sistema de <span class="o">captación</span><br>y <span class="g">ventas</span></h1>
+      <p>El paso a paso completo para atraer seguidores, capturar leads en una base de datos propia y convertirlos en ventas del programa Fénix Prime 21.</p>
+    </div>
+
+    <!-- 0 -->
+    <section id="vision">
+      <div class="eyebrow">Etapa por etapa</div>
+      <h2>Cómo funciona el sistema</h2>
+      <p class="intro">Todo se mueve en 6 etapas. Cada pieza que construimos cumple una de ellas. El error común es quedarse en "atraer seguidores"; el dinero está en capturar, nutrir y vender.</p>
+      <div class="funnel">
+        <div class="stage"><div class="n">1</div><div><h4>Atrae</h4><p>Reels y posts con un gancho que detiene el scroll e invita a comentar la palabra clave.</p></div></div>
+        <div class="stage"><div class="n">2</div><div><h4>Captura</h4><p>La persona deja nombre, WhatsApp y correo en tu landing → entra a tu base de datos propia.</p></div></div>
+        <div class="stage"><div class="n">3</div><div><h4>Entrega</h4><p>Recibe gratis la guía "Reto 7 Días" → primera victoria y prueba de que el método funciona.</p></div></div>
+        <div class="stage"><div class="n">4</div><div><h4>Nutre</h4><p>Secuencia de 5 días por WhatsApp que genera confianza y va presentando la oferta.</p></div></div>
+        <div class="stage"><div class="n">5</div><div><h4>Vende</h4><p>Oferta de Fénix Prime 21 con anclaje, escasez, urgencia y garantía.</p></div></div>
+        <div class="stage"><div class="n">6</div><div><h4>Rescata</h4><p>Respuestas a objeciones y seguimiento que recuperan las ventas que casi se caen.</p></div></div>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section id="activos">
+      <div class="eyebrow">Lo que ya está vivo</div>
+      <h2>Tus activos y enlaces</h2>
+      <p class="intro">Estas son las herramientas del sistema. Guárdalas a la mano.</p>
+      <div class="assets">
+        <div class="asset"><div class="t">Guía Reto 7 Días</div><div class="d">PDF de marca con WhatsApp clickeable. El regalo que entregas.</div><a class="link" href="https://seb4s-svg.github.io/index.html/Guia_Reto7Dias_FenixPrime.pdf" target="_blank">Abrir guía</a></div>
+        <div class="asset"><div class="t">Landing de captura</div><div class="d">Página que pide los datos y entrega la guía. El enlace que compartes.</div><a class="link" href="https://seb4s-svg.github.io/index.html/reto.html" target="_blank">Abrir landing</a></div>
+        <div class="asset"><div class="t">Base de datos</div><div class="d">Google Sheet "Leads Fénix Prime". Aquí caen todos los contactos.</div><span class="link">Google Sheets (privada)</span></div>
+        <div class="asset"><div class="t">WhatsApp</div><div class="d">El número al que llegan los leads para la nutrición y la venta.</div><a class="link" href="https://wa.me/573144906088" target="_blank">314 490 6088</a></div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="config">
+      <div class="eyebrow">Solo se hace una vez</div>
+      <h2>Configuración paso a paso</h2>
+
+      <h3>A · ManyChat (comenta RETO)</h3>
+      <ol class="steps">
+        <li>Crea cuenta gratis en <b>manychat.com</b> y conéctala al Instagram del negocio.</li>
+        <li>Nueva automatización → <b>"Enviar enlace desde los comentarios"</b>.</li>
+        <li>Elige la publicación (el Reel del Reto) y pon la palabra clave: <b>RETO</b> (con variantes: reto, quiero el reto).</li>
+        <li>Respuesta pública al comentario en español (3 variantes) confirmando que el regalo va al privado.</li>
+        <li>En el DM, en "Agregar un enlace", pega el enlace de tu <b>landing</b> (no el PDF directo) para capturar los datos.</li>
+      </ol>
+      <div class="warn">Para que ManyChat envíe DMs, el Instagram del negocio debe estar conectado a ManyChat (paso del código/QR de Meta).</div>
+
+      <h3>B · Google Sheet (base de datos)</h3>
+      <ol class="steps">
+        <li>Crea una hoja nueva en <b>sheets.new</b> y nómbrala "Leads Fénix Prime".</li>
+        <li>Extensiones → <b>Apps Script</b> → pega el código que guarda cada lead → guarda.</li>
+        <li>Implementar → Nueva implementación → <b>Aplicación web</b>.</li>
+        <li>Ejecutar como: <b>Yo</b> · Quién tiene acceso: <b>Cualquier persona</b> → Implementar → autoriza.</li>
+        <li>Copia la URL que termina en <b>/exec</b> y pégala en la landing (variable SCRIPT_URL).</li>
+      </ol>
+      <div class="warn">Si "Quién tiene acceso" queda en "Solo yo", los datos NO se guardan. Debe ser "Cualquier persona".</div>
+
+      <h3>C · Publicar en GitHub Pages</h3>
+      <ol class="steps">
+        <li>En el repositorio, <b>Add file → Upload files</b>.</li>
+        <li>Arrastra el archivo (PDF o HTML) y dale <b>Commit changes</b>.</li>
+        <li>Tu enlace queda en <b>seb4s-svg.github.io/index.html/&lt;archivo&gt;</b>.</li>
+      </ol>
+    </section>
+
+    <!-- 3 -->
+    <section id="copys">
+      <div class="eyebrow">Listo para copiar y pegar</div>
+      <h2>Copys para publicar</h2>
+      <p class="intro">El mismo gancho adaptado a cómo capta cada plataforma. La primera línea es la que engancha.</p>
+
+      <div class="copy">
+        <div class="lbl">Instagram / Facebook (Reel o post)</div>
+        <button class="copybtn">Copiar</button>
+        <div class="body">¿Te despiertas CANSADA aunque duermas 8 horas? 😮‍💨
+
+No es falta de voluntad. Es tu metabolismo desregulado — y se puede reiniciar en solo 7 días, sin dietas extremas.
+
+Te preparé una guía GRATIS: el Reto 7 Días para reiniciar tu energía. Una acción simple por día. 🔥
+
+👉 Comenta la palabra RETO y te la envío al privado, sin costo.
+
+#BienestarReal #EnergíaNatural #FénixPrime</div>
+        <div class="why">Captura: comenta RETO → ManyChat. Repite el llamado y usa solo 3 hashtags.</div>
+      </div>
+
+      <div class="copy">
+        <div class="lbl">Historia de Instagram (3 pantallas)</div>
+        <button class="copybtn">Copiar</button>
+        <div class="body">Pantalla 1: ¿Cansada aunque duermas 8 horas? 😮‍💨
+Pantalla 2: No es falta de voluntad. Es tu metabolismo.
+Pantalla 3: Te regalo mi guía RETO 7 DÍAS 🔥 — Responde con la palabra RETO y te la envío 👇</div>
+        <div class="why">En historias te responden por DM. Usa el sticker de preguntas con "Escribe RETO".</div>
+      </div>
+
+      <div class="copy">
+        <div class="lbl">TikTok (link en bio)</div>
+        <button class="copybtn">Copiar</button>
+        <div class="body">El error #1 que te tiene sin energía no es lo que comes 👀
+
+Es tu metabolismo desregulado. Y se reinicia en 7 días.
+
+Guía GRATIS en el link de mi bio 🔥
+
+#BienestarReal #EnergíaNatural #SaludMetabólica</div>
+        <div class="why">ManyChat no aplica en TikTok. Pon la landing en tu bio para capturar igual.</div>
+      </div>
+
+      <div class="copy">
+        <div class="lbl">Estado de WhatsApp (audiencia caliente)</div>
+        <button class="copybtn">Copiar</button>
+        <div class="body">🔥 Guía GRATIS: Reto 7 Días para reiniciar tu energía.
+
+¿La quieres? Respóndeme RETO y te la envío al instante 👇</div>
+        <div class="why">Aquí respondes tú manualmente: cuando te escriban RETO, mándales el enlace de la landing.</div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section id="nutricion">
+      <div class="eyebrow">La pieza que convierte</div>
+      <h2>Secuencia de nutrición · 5 días</h2>
+      <p class="intro">Un mensaje por día por WhatsApp tras descargar el Reto. Personaliza con el nombre. Responde tú a quien conteste.</p>
+
+      <div class="copy"><div class="lbl">Día 1 · Bienvenida y compromiso</div><button class="copybtn">Copiar</button>
+      <div class="body">¡Hola {Nombre}! 🔥 Soy Diego, de Fénix Prime. Ya tienes en tus manos el Reto 7 Días 💪
+
+Te lo mandé porque quiero que de verdad sientas el cambio, no que se quede guardado en el celular.
+
+Tu única misión de hoy: el Día 1 → un vaso grande de agua apenas te levantes. Simple, pero poderoso.
+
+¿Te animas a empezar hoy? Respóndeme VOY y te acompaño en el proceso 👊</div>
+      <div class="why">Sesgo: autoridad + compromiso.</div></div>
+
+      <div class="copy"><div class="lbl">Día 2 · Valor y agitar el problema</div><button class="copybtn">Copiar</button>
+      <div class="body">{Nombre}, ¿cómo te fue con el agua de ayer? 💧
+
+Te cuento algo clave: la razón #1 por la que la gente vive sin energía no es la comida… es que su metabolismo está "apagado" por el estrés y los malos hábitos.
+
+Y cada día que pasa sin corregirlo, tu cuerpo se acostumbra más a funcionar en modo ahorro. Por eso, entre más rápido empieces, mejor.
+
+Hoy toca el Día 2: proteína en el desayuno. Te va a sorprender cómo bajan los antojos 🔥</div>
+      <div class="why">Sesgo: aversión a la pérdida.</div></div>
+
+      <div class="copy"><div class="lbl">Día 3 · Prueba social</div><button class="copybtn">Copiar</button>
+      <div class="body">{Nombre}, déjame contarte de [cliente real] 👇
+
+Llegó igual que muchos: cansada todo el día, sin ánimo, probándolo todo sin resultados. En pocas semanas con el método recuperó su energía y bajó medidas sin pasar hambre.
+
+¿Su secreto? No fue fuerza de voluntad. Fue seguir un sistema paso a paso.
+
+El reto que tienes es la probadita de ese sistema. ¿Vas sintiendo el cambio estos días? 💪</div>
+      <div class="why">Sesgo: prueba social. Usa SIEMPRE un testimonio real, nunca inventado.</div></div>
+
+      <div class="copy"><div class="lbl">Día 4 · Presentar la oferta (anclaje)</div><button class="copybtn">Copiar</button>
+      <div class="body">{Nombre}, si el Reto 7 Días te dio resultados con solo 7 acciones simples… imagínate con el sistema completo 🔥
+
+Se llama Fénix Prime 21: 21 días para reiniciar tu metabolismo paso a paso, con plan de comidas, movimiento y acompañamiento real. Sin dietas extremas.
+
+Un acompañamiento así normalmente cuesta más de $200.000. Pero quiero que la transformación sea para todos, por eso lo dejé en una fracción de eso.
+
+Mañana te cuento cómo entrar… y hay un detalle importante con los cupos 👀</div>
+      <div class="why">Sesgo: anclaje + curiosidad para el día 5.</div></div>
+
+      <div class="copy"><div class="lbl">Día 5 · Cierre (escasez + garantía)</div><button class="copybtn">Copiar</button>
+      <div class="body">{Nombre}, llegó el momento 🔥
+
+Abrí cupos para Fénix Prime 21 por solo $50 (en lugar de los $200.000 que vale el acompañamiento completo).
+
+Pero ojo:
+✅ Solo quedan pocos cupos en este grupo.
+✅ A este precio, solo hasta [fecha].
+✅ Si sigues el sistema 21 días y no ves cambios, te devuelvo tu dinero. Sin riesgo.
+
+No dejes que tu energía siga en modo ahorro un mes más. Escríbeme QUIERO FÉNIX y te paso el link para asegurar tu cupo 👇</div>
+      <div class="why">Sesgo: escasez + urgencia + garantía. Pon una fecha real.</div></div>
+    </section>
+
+    <!-- 5 -->
+    <section id="objeciones">
+      <div class="eyebrow">Rescate de ventas</div>
+      <h2>Respuestas a objeciones</h2>
+      <p class="intro">Regla de oro: nunca discutas la objeción. Valida primero, luego reencuadra. Y después de responder, vuelve a pedir la venta.</p>
+
+      <div class="copy"><div class="lbl">"Está caro / no tengo el dinero"</div><button class="copybtn">Copiar</button>
+      <div class="body">Te entiendo, {Nombre}, y déjame verlo contigo 👇
+
+Son $50 una sola vez por 21 días que te cambian la energía y los hábitos para siempre. Piénsalo: probablemente gastas más que eso en un mes en cosas que te dejan igual (gaseosas, antojos, suplementos que no usas).
+
+Esto no es un gasto, es una inversión en dejar de sentirte agotada todos los días. ¿Cuánto vale tu energía? 🔥</div>
+      <div class="why">Reencuadre: de gasto a inversión.</div></div>
+
+      <div class="copy"><div class="lbl">"No tengo tiempo"</div><button class="copybtn">Copiar</button>
+      <div class="body">Justo por eso lo diseñé así, {Nombre} 💪
+
+Fénix Prime 21 no te pide horas en el gym ni cocinar todo el día. Son acciones simples que caben en tu rutina — como las del Reto que ya hiciste.
+
+La verdad es que no es falta de tiempo, es falta de un sistema que te diga qué hacer sin pensar. Eso es justo lo que te doy. ¿Te muestro cómo se ve un día normal del programa?</div>
+      <div class="why">Reencuadre: el sistema ahorra tiempo.</div></div>
+
+      <div class="copy"><div class="lbl">"Lo voy a pensar"</div><button class="copybtn">Copiar</button>
+      <div class="body">Claro que sí, {Nombre} 🙌 Solo una pregunta honesta: ¿qué es lo que necesitas pensar exactamente?
+
+Muchas veces "lo voy a pensar" es en realidad una duda concreta — el precio, si funciona para tu caso, o el tiempo. Dime cuál es y la resolvemos juntos, sin compromiso.
+
+(Y recuerda que los cupos a este precio son limitados, no quiero que lo pienses tanto que se te pase 👀)</div>
+      <div class="why">Destapa la objeción real + recuerda la escasez.</div></div>
+
+      <div class="copy"><div class="lbl">"¿De verdad funciona?"</div><button class="copybtn">Copiar</button>
+      <div class="body">Es la pregunta correcta, {Nombre} 👏 Y por eso lo respaldo así:
+
+Sigues el sistema los 21 días y si no ves cambios, te devuelvo tu dinero completo. El riesgo lo asumo yo, no tú.
+
+Lo único que te pido es que lo hagas. Si haces tu parte, los resultados llegan — como ya empezaste a sentir con el Reto 7 Días. 🔥</div>
+      <div class="why">La garantía elimina el riesgo del cliente.</div></div>
+
+      <div class="copy"><div class="lbl">El que dejó de responder (24-48h después)</div><button class="copybtn">Copiar</button>
+      <div class="body">{Nombre}, no quiero que se te pase 👀 Los cupos de Fénix Prime 21 a $50 se están cerrando y no quería que te quedaras por fuera sabiendo lo que esto puede hacer por tu energía.
+
+¿Sigues interesada o prefieres que te avise en la próxima apertura? Cualquiera de las dos está bien, solo dime 🙌</div>
+      <div class="why">Dar una salida elegante hace que muchos digan "no, sí quiero".</div></div>
+    </section>
+
+    <!-- 6 -->
+    <section id="reglas">
+      <div class="eyebrow">Lo que hace la diferencia</div>
+      <h2>Reglas de oro</h2>
+      <ul class="check">
+        <li><span class="box"></span><span><b>Responde rápido.</b> Un lead caliente se enfría en horas. La velocidad vende.</span></li>
+        <li><span class="box"></span><span><b>Una objeción a la vez.</b> Conversa, no sueltes párrafos gigantes.</span></li>
+        <li><span class="box"></span><span><b>Pide la venta.</b> Después de responder, vuelve a invitar a comprar. Si no pides, no cierras.</span></li>
+        <li><span class="box"></span><span><b>Honestidad siempre.</b> Escasez real, garantía real, testimonios reales. Una mentira descubierta tumba la marca.</span></li>
+        <li><span class="box"></span><span><b>Personaliza.</b> Usa el nombre. Sube mucho la respuesta.</span></li>
+        <li><span class="box"></span><span><b>Un mensaje por día</b> en la nutrición, entre 7-9 am o 7-9 pm.</span></li>
+      </ul>
+    </section>
+
+    <!-- 7 -->
+    <section id="lanzamiento">
+      <div class="eyebrow">Antes de arrancar</div>
+      <h2>Checklist de lanzamiento</h2>
+      <ul class="check">
+        <li><span class="box"></span><span>Instagram del negocio conectado a ManyChat.</span></li>
+        <li><span class="box"></span><span>Automatización de la palabra RETO activa y probada.</span></li>
+        <li><span class="box"></span><span>Landing publicada y conectada a la Google Sheet (prueba: enviar el formulario y ver la fila aparecer).</span></li>
+        <li><span class="box"></span><span>Guía PDF abriendo bien, con el WhatsApp correcto.</span></li>
+        <li><span class="box"></span><span>Reel del Reto publicado con el copy y el llamado a comentar.</span></li>
+        <li><span class="box"></span><span>Secuencia de nutrición lista para enviar.</span></li>
+        <li><span class="box"></span><span>Respuestas a objeciones a la mano.</span></li>
+        <li><span class="box"></span><span>Fecha real definida para el cierre de la oferta.</span></li>
+      </ul>
+    </section>
+
+    <footer>
+      <span><b>FÉNIX PRIME</b> · Manual operativo</span>
+      <span>@diego_wellnesss · Transformación real, desde adentro.</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+  // copy buttons
+  document.querySelectorAll('.copy').forEach(card => {
+    const btn = card.querySelector('.copybtn');
+    const body = card.querySelector('.body');
+    if(!btn || !body) return;
+    btn.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(body.innerText.trim());
+        btn.textContent = '¡Copiado!'; btn.classList.add('done');
+        setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('done');},1800);
+      }catch(e){
+        const r=document.createRange();r.selectNode(body);
+        getSelection().removeAllRanges();getSelection().addRange(r);
+        try{document.execCommand('copy');btn.textContent='¡Copiado!';}catch(_){}
+        getSelection().removeAllRanges();
+        setTimeout(()=>{btn.textContent='Copiar';},1800);
+      }
+    });
+  });
+  // active section highlight
+  const links=[...document.querySelectorAll('nav a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){
+      const i=secs.indexOf(e.target);
+      links.forEach(l=>l.classList.remove('on'));
+      if(links[i])links[i].classList.add('on');
+    }});
+  },{rootMargin:'-30% 0px -65% 0px'});
+  secs.forEach(s=>s&&obs.observe(s));
+</script>
+</body>
+</html>
