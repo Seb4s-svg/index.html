@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro de Control · Fénix Prime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0F0F0F;--panel:#161616;--panel2:#1b1b1b;--line:#2b2b2b;--white:#F5F5F5;--grey:#9a9a9a;--gold:#C9A227;--orange:#FF6B00}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--white);font-family:"Poppins",sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold)}
+  .wrap{max-width:1100px;margin:0 auto;padding:26px 20px 90px}
+  .head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .head .dot{width:11px;height:11px;border-radius:50%;background:var(--orange)}
+  .head h1{font-family:"Montserrat";font-weight:900;font-size:clamp(24px,4vw,34px);text-transform:uppercase;letter-spacing:.02em}
+  .head h1 .g{color:var(--gold)}
+  .sub{color:var(--grey);font-size:14px;margin-bottom:22px;padding-left:23px}
+
+  .tabs{display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--line);padding-bottom:0;margin-bottom:26px;position:sticky;top:0;background:var(--bg);z-index:10;padding-top:6px}
+  .tab{flex:none;background:transparent;border:none;color:var(--grey);font-family:"Poppins";font-weight:500;font-size:14px;padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+  .tab:hover{color:var(--white)}
+  .tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+  .panel{display:none;animation:f .3s ease}
+  .panel.on{display:block}
+  @keyframes f{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+  h2{font-family:"Montserrat";font-weight:800;font-size:24px;text-transform:uppercase;margin-bottom:6px}
+  .lead{color:var(--grey);font-size:15px;margin-bottom:22px;max-width:72ch}
+  h3{font-family:"Montserrat";font-weight:700;font-size:18px;margin:26px 0 12px;color:var(--white)}
+
+  /* tiles */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .tile{display:block;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;text-decoration:none;color:var(--white);border-top:3px solid var(--gold);transition:transform .15s}
+  .tile:hover{transform:translateY(-3px);border-top-color:var(--orange)}
+  .tile .i{font-size:24px;margin-bottom:8px}
+  .tile .t{font-family:"Montserrat";font-weight:700;text-transform:uppercase;font-size:15px;margin-bottom:4px}
+  .tile .d{color:var(--grey);font-size:13px}
+
+  .note{background:rgba(201,162,39,.07);border:1px solid rgba(201,162,39,.3);border-radius:12px;padding:16px 18px;color:#e6d49a;font-size:14px;margin:18px 0}
+  .warnbox{background:rgba(255,107,0,.08);border:1px solid rgba(255,107,0,.35);border-radius:12px;padding:14px 16px;color:#f3c4a3;font-size:14px;margin:16px 0}
+
+  /* week table */
+  .wk{width:100%;border-collapse:collapse;margin:10px 0 6px;font-size:14px}
+  .wk th,.wk td{border:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}
+  .wk th{background:#121212;color:var(--gold);font-family:"Montserrat";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.04em;width:120px}
+  .wk td b{color:var(--white)}
+  .pillar{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;margin-right:6px}
+  .p-mito{background:rgba(201,162,39,.15);color:var(--gold)}
+  .p-ad{background:rgba(255,107,0,.15);color:var(--orange)}
+  .p-valor{background:rgba(80,160,255,.14);color:#74b3ff}
+  .p-test{background:rgba(47,175,99,.15);color:#4cd183}
+  .p-cta{background:rgba(255,80,80,.14);color:#ff8a8a}
+  .p-hist{background:rgba(180,140,255,.14);color:#c4a6ff}
+
+  /* week cards (month plan) */
+  .weeks{display:grid;gap:14px}
+  .week{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;border-left:3px solid var(--gold)}
+  .week .wt{font-family:"Montserrat";font-weight:700;font-size:16px;text-transform:uppercase}
+  .week .wd{color:var(--grey);font-size:13px;margin-bottom:8px}
+
+  /* recording cards */
+  .rec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+  .rec .when{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .rec .cal{background:linear-gradient(135deg,var(--gold),var(--orange));color:#0d0d0d;font-family:"Montserrat";font-weight:800;font-size:13px;padding:5px 12px;border-radius:8px}
+  .rec .for{color:var(--grey);font-size:13px}
+  .rec ul{list-style:none;margin-top:12px}
+  .rec li{display:flex;gap:11px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .rec li:last-child{border-bottom:none}
+  .rec li .box{flex:none;width:19px;height:19px;border-radius:5px;border:1.5px solid var(--gold);margin-top:2px}
+
+  /* script cards */
+  .sc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+  .sc .lbl{font-family:"Montserrat";font-weight:700;font-size:14px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .sc .g{color:var(--orange);font-weight:600}
+  .sc p{font-size:14px;margin-bottom:7px;color:#e3e3e3}
+  .sc .why{font-size:12.5px;color:var(--grey);font-style:italic;border-top:1px dashed var(--line);padding-top:9px;margin-top:9px}
+
+  .frame{width:100%;height:80vh;border:1px solid var(--line);border-radius:14px;background:#000}
+  .open{display:inline-block;margin-bottom:12px;font-size:14px;color:var(--orange);text-decoration:none;border-bottom:1px dashed rgba(255,107,0,.5)}
+  footer{margin-top:34px;color:#5b5b5b;font-size:12px;text-align:center}footer b{color:var(--gold);font-family:"Montserrat";letter-spacing:.1em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head"><span class="dot"></span><h1>Centro de <span class="g">Control</span></h1></div>
+  <div class="sub">Fénix Prime · todo el sistema en un solo lugar</div>
+
+  <div class="tabs">
+    <button class="tab on" data-p="inicio">Inicio</button>
+    <button class="tab" data-p="plan">Plan del mes</button>
+    <button class="tab" data-p="grabacion">Grabación (fines de semana)</button>
+    <button class="tab" data-p="guiones">Guiones</button>
+    <button class="tab" data-p="calendario">Calendario</button>
+    <button class="tab" data-p="leads">Leads en vivo</button>
+  </div>
+
+  <!-- INICIO -->
+  <div class="panel on" id="inicio">
+    <h2>Accesos rápidos</h2>
+    <p class="lead">Todas las herramientas del sistema. Da clic para abrir cada una.</p>
+    <div class="tiles">
+      <a class="tile" href="panel.html" target="_blank"><div class="i">📇</div><div class="t">Panel de Leads</div><div class="d">Clientes en vivo, estado, día del reto y chat.</div></a>
+      <a class="tile" href="sistema.html" target="_blank"><div class="i">📘</div><div class="t">Manual del sistema</div><div class="d">El paso a paso, copys y objeciones.</div></a>
+      <a class="tile" href="reto.html" target="_blank"><div class="i">🧲</div><div class="t">Landing de captura</div><div class="d">La página que recoge los datos.</div></a>
+      <a class="tile" href="Guia_Reto7Dias_FenixPrime.pdf" target="_blank"><div class="i">📄</div><div class="t">Guía Reto 7 Días</div><div class="d">El PDF que se entrega gratis.</div></a>
+      <a class="tile" href="calendario_con_imagenes.html" target="_blank"><div class="i">🗓️</div><div class="t">Calendario de contenido</div><div class="d">Tu calendario de publicaciones.</div></a>
+      <a class="tile" href="https://wa.me/573144906088" target="_blank"><div class="i">💬</div><div class="t">WhatsApp</div><div class="d">El número de ventas: 314 490 6088.</div></a>
+    </div>
+    <div class="note"><b>Ritmo del sistema:</b> grabas el fin de semana → publicas toda la semana → los leads caen al panel → el equipo los gestiona y vende. Cada pestaña de arriba es una pieza de ese ritmo.</div>
+  </div>
+
+  <!-- PLAN DEL MES -->
+  <div class="panel" id="plan">
+    <h2>Plan del mes</h2>
+    <p class="lead">Un Reel/post al día + historias diarias. La semana rota entre pilares para que nunca se vea repetitivo. Los <span style="color:var(--orange)">antes y después</span> van 2 veces por semana porque tienes muchos casos y son los que más convierten.</p>
+
+    <h3>Ritmo semanal (se repite cada semana)</h3>
+    <table class="wk">
+      <tr><th>Lunes</th><td><span class="pillar p-mito">Mito</span> Rompe una creencia sobre la comida.</td></tr>
+      <tr><th>Martes</th><td><span class="pillar p-ad">Antes y Después</span> Una transformación real (con permiso del cliente).</td></tr>
+      <tr><th>Miércoles</th><td><span class="pillar p-valor">Valor</span> Un tip accionable que pueden aplicar hoy.</td></tr>
+      <tr><th>Jueves</th><td><span class="pillar p-test">Testimonio</span> Un cliente hablando de su experiencia.</td></tr>
+      <tr><th>Viernes</th><td><span class="pillar p-cta">CTA Reto</span> Gancho fuerte → "comenta RETO".</td></tr>
+      <tr><th>Sábado</th><td><span class="pillar p-hist">Historia</span> Diego en primera persona / detrás de cámaras.</td></tr>
+      <tr><th>Domingo</th><td><span class="pillar p-ad">Antes y Después</span> Refuerzo + recordatorio del reto.</td></tr>
+    </table>
+
+    <h3>Enfoque por semana</h3>
+    <div class="weeks">
+      <div class="week"><div class="wt">Semana 1 · 22–28 jun</div><div class="wd">Tema: Recupera tu energía</div>Mensaje central: el cansancio no es normal ni es falta de voluntad. Pilar fuerte: valor + mito.</div>
+      <div class="week"><div class="wt">Semana 2 · 29 jun–5 jul</div><div class="wd">Tema: La verdad sobre la comida</div>Mensaje central: derribar mitos (azúcar, carbos, detox). Pilar fuerte: mitos.</div>
+      <div class="week"><div class="wt">Semana 3 · 6–12 jul</div><div class="wd">Tema: Transformaciones reales</div>Mensaje central: esto funciona y aquí está la prueba. Pilar fuerte: antes y después + testimonios.</div>
+      <div class="week"><div class="wt">Semana 4 · 13–19 jul</div><div class="wd">Tema: Tu turno (cierre)</div>Mensaje central: invitación directa a Fénix Prime 21. Pilar fuerte: CTA + oferta con escasez.</div>
+    </div>
+  </div>
+
+  <!-- GRABACION -->
+  <div class="panel" id="grabacion">
+    <h2>Plan de grabación · fines de semana</h2>
+    <p class="lead">Grabas una vez el fin de semana y queda contenido para toda la semana siguiente. Cada sesión es una lista de tomas (shot list). Tip: mismo día, mismo outfit, cambias el tema → así rinde más.</p>
+
+    <div class="rec">
+      <div class="when"><span class="cal">SÁB 20 / DOM 21 JUN</span><span class="for">para publicar · Semana 1 (22–28 jun)</span></div>
+      <ul>
+        <li><span class="box"></span>1 Mito: "Comer de noche engorda"</li>
+        <li><span class="box"></span>1 Valor: "3 cosas que puedes hacer hoy por tu energía"</li>
+        <li><span class="box"></span>2 Antes y Después (prepara 2 casos con fotos y permiso)</li>
+        <li><span class="box"></span>1 Testimonio en video (agenda 1 cliente)</li>
+        <li><span class="box"></span>1 CTA Reto (gancho del cansancio)</li>
+        <li><span class="box"></span>1 Historia: "Por qué hago esto"</li>
+      </ul>
+    </div>
+
+    <div class="rec">
+      <div class="when"><span class="cal">SÁB 27 / DOM 28 JUN</span><span class="for">para publicar · Semana 2 (29 jun–5 jul)</span></div>
+      <ul>
+        <li><span class="box"></span>3 Mitos: carbohidratos / detox / "saltarse comidas"</li>
+        <li><span class="box"></span>2 Antes y Después</li>
+        <li><span class="box"></span>1 Testimonio en video</li>
+        <li><span class="box"></span>1 CTA Reto + 1 Valor</li>
+      </ul>
+    </div>
+
+    <div class="rec">
+      <div class="when"><span class="cal">SÁB 4 / DOM 5 JUL</span><span class="for">para publicar · Semana 3 (6–12 jul)</span></div>
+      <ul>
+        <li><span class="box"></span>4 Antes y Después (semana de transformaciones)</li>
+        <li><span class="box"></span>2 Testimonios en video</li>
+        <li><span class="box"></span>1 CTA Reto + 1 Valor</li>
+      </ul>
+    </div>
+
+    <div class="rec">
+      <div class="when"><span class="cal">SÁB 11 / DOM 12 JUL</span><span class="for">para publicar · Semana 4 (13–19 jul · cierre)</span></div>
+      <ul>
+        <li><span class="box"></span>2 videos de oferta Fénix Prime 21 (qué incluye / para quién es)</li>
+        <li><span class="box"></span>2 Antes y Después fuertes (los mejores casos)</li>
+        <li><span class="box"></span>1 Testimonio + 1 video de escasez ("últimos cupos")</li>
+        <li><span class="box"></span>1 Historia/cierre emocional</li>
+      </ul>
+    </div>
+
+    <div class="note"><b>Cómo grabar un Antes y Después que convierte:</b> usa fotos reales y con permiso del cliente · mismo ángulo y luz en ambas · no muestres solo 2 fotos, cuenta la historia (cómo llegó, qué cambió) · si puedes, que el cliente diga 1 frase. La honestidad es lo que sostiene la marca.</div>
+  </div>
+
+  <!-- GUIONES -->
+  <div class="panel" id="guiones">
+    <h2>Guiones para grabar</h2>
+    <p class="lead">Listos para grabar. Gancho fuerte en los primeros 3 segundos. Cierre siempre invitando a comentar RETO.</p>
+
+    <h3>Antes y Después</h3>
+    <div class="sc"><div class="lbl">Antes y Después · estructura</div>
+      <p><b class="g">Gancho:</b> "Mira el cambio de [nombre] en [X semanas] 👇"</p>
+      <p><b>Desarrollo:</b> muestra el antes, cuenta cómo se sentía (cansada, sin energía). Muestra el después y qué cambió. Que el cliente diga 1 frase real.</p>
+      <p><b>Cierre:</b> "Esto no fue suerte, fue un sistema. ¿Quieres el tuyo? Comenta RETO 🔥"</p>
+      <div class="why">Usa siempre casos reales y con permiso.</div>
+    </div>
+
+    <h3>Testimonios (cliente habla)</h3>
+    <div class="sc"><div class="lbl">Guion de entrevista</div>
+      <p>1. ¿Cómo te sentías antes de empezar?</p>
+      <p>2. ¿Qué habías intentado que no funcionó?</p>
+      <p>3. ¿Qué cambió con el método?</p>
+      <p>4. ¿Cómo te sientes hoy?</p>
+      <p><b>Cierre tú (Diego):</b> "Resultados como el de [nombre] son de seguir un sistema. Comenta RETO 🔥"</p>
+    </div>
+
+    <h3>Mitos de la comida</h3>
+    <div class="sc"><div class="lbl">Mito 1 · "Comer de noche engorda"</div>
+      <p><b class="g">Gancho:</b> "¿Te dijeron que comer de noche engorda? Mentira. 👇"</p>
+      <p><b>Desarrollo:</b> no es la hora, es el total del día y qué comes. Llegar muerto de hambre en la noche es el verdadero problema.</p>
+      <p><b>Cierre:</b> "Come con estrategia. Te enseño en mi Reto gratis — comenta RETO."</p>
+    </div>
+    <div class="sc"><div class="lbl">Mito 2 · "Los carbohidratos son el enemigo"</div>
+      <p><b class="g">Gancho:</b> "Si le tienes miedo al arroz, esto te libera. 😮"</p>
+      <p><b>Desarrollo:</b> los carbos no engordan, el exceso sí. Quitarlos del todo te deja sin energía y con más antojos.</p>
+      <p><b>Cierre:</b> "No elimines, balancea. Comenta RETO y te muestro cómo."</p>
+    </div>
+    <div class="sc"><div class="lbl">Mito 3 · "Necesitas un detox/té"</div>
+      <p><b class="g">Gancho:</b> "Ese té detox… te explico la verdad. 🍵"</p>
+      <p><b>Desarrollo:</b> tu hígado y riñones ya te desintoxican gratis. Lo que funciona es comer real, dormir y moverte.</p>
+      <p><b>Cierre:</b> "Ahórrate la plata. Comenta RETO."</p>
+    </div>
+
+    <h3>Valor educativo</h3>
+    <div class="sc"><div class="lbl">"El error #1 que te tiene sin energía"</div>
+      <p><b class="g">Gancho:</b> "El error #1 que te tiene cansada no es lo que comes. 👀"</p>
+      <p><b>Desarrollo:</b> es vivir en estrés con el metabolismo apagado. Por más que duermas, no recuperas energía.</p>
+      <p><b>Cierre:</b> "Reactivarlo es simple. Te enseño en 7 días — comenta RETO."</p>
+    </div>
+    <div class="sc"><div class="lbl">"3 cosas que puedes hacer HOY"</div>
+      <p><b class="g">Gancho:</b> "3 cosas gratis que te darán más energía desde hoy. 🔥"</p>
+      <p><b>Desarrollo:</b> agua al despertar · proteína en el desayuno · caminar 15 min después de comer.</p>
+      <p><b>Cierre:</b> "Esto es solo el comienzo. ¿El plan completo? Comenta RETO."</p>
+    </div>
+
+    <h3>Historia / conexión</h3>
+    <div class="sc"><div class="lbl">"Por qué hago esto"</div>
+      <p><b class="g">Gancho:</b> "Yo también viví agotado todo el día. Te cuento. 👇"</p>
+      <p><b>Desarrollo:</b> probé de todo hasta entender que no necesitaba más esfuerzo, sino un sistema.</p>
+      <p><b>Cierre:</b> "Por eso creé Fénix Prime. Comenta RETO y empieza."</p>
+    </div>
+  </div>
+
+  <!-- CALENDARIO -->
+  <div class="panel" id="calendario">
+    <h2>Calendario de contenido</h2>
+    <p class="lead">Tu calendario de publicaciones. Ábrelo a pantalla completa para editarlo cómodo.</p>
+    <a class="open" href="calendario_con_imagenes.html" target="_blank">↗ Abrir calendario completo en otra pestaña</a>
+    <iframe class="frame" data-src="calendario_final.html" title="Calendario"></iframe>
+  </div>
+
+  <!-- LEADS -->
+  <div class="panel" id="leads">
+    <h2>Leads en vivo</h2>
+    <p class="lead">Tus leads se actualizan solos aquí. Marca estado, día del reto y chatea desde el panel.</p>
+    <a class="open" href="panel.html" target="_blank">↗ Abrir panel completo en otra pestaña</a>
+    <iframe class="frame" data-src="panel.html" title="Panel de Leads"></iframe>
+  </div>
+
+  <footer><b>FÉNIX PRIME</b> · Centro de Control · Transformación real, desde adentro.</footer>
+</div>
+
+<script>
+  const tabs=[...document.querySelectorAll('.tab')];
+  const panels=[...document.querySelectorAll('.panel')];
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('on')); t.classList.add('on');
+    const id=t.dataset.p;
+    panels.forEach(p=>p.classList.toggle('on', p.id===id));
+    // lazy-load iframes
+    const pan=document.getElementById(id);
+    const fr=pan.querySelector('iframe[data-src]');
+    if(fr && !fr.src){ fr.src=fr.dataset.src; }
+    window.scrollTo({top:0,behavior:'smooth'});
+  }));
+</script>
+</body>
+</html>
