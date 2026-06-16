@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Leads · Fénix Prime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0F0F0F;--panel:#161616;--line:#2b2b2b;--white:#F5F5F5;--grey:#9a9a9a;--gold:#C9A227;--orange:#FF6B00;--wa:#25D366}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--white);font-family:"Poppins",sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:24px 18px 80px}
+
+  header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+    padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:22px}
+  .ttl{display:flex;align-items:center;gap:11px}
+  .ttl .dot{width:10px;height:10px;border-radius:50%;background:var(--orange)}
+  .ttl h1{font-family:"Montserrat";font-weight:800;font-size:20px;letter-spacing:.04em;text-transform:uppercase}
+  .ttl span{display:block;color:var(--grey);font-size:12px;letter-spacing:.03em}
+  .meta{display:flex;align-items:center;gap:18px}
+  .live{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--grey);letter-spacing:.06em;text-transform:uppercase}
+  .live .pulse{width:9px;height:9px;border-radius:50%;background:#36d36b;box-shadow:0 0 0 0 rgba(54,211,107,.6);animation:p 1.8s infinite}
+  @keyframes p{0%{box-shadow:0 0 0 0 rgba(54,211,107,.55)}70%{box-shadow:0 0 0 10px rgba(54,211,107,0)}100%{box-shadow:0 0 0 0 rgba(54,211,107,0)}}
+  .count{text-align:right}
+  .count b{font-family:"Montserrat";font-weight:800;font-size:26px;color:var(--gold);display:block;line-height:1}
+  .count small{color:var(--grey);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+
+  .bar{display:flex;gap:10px;margin-bottom:18px}
+  .bar input{flex:1;background:#0d0d0d;border:1px solid var(--line);border-radius:10px;padding:11px 14px;color:var(--white);font-family:"Poppins";font-size:14px}
+  .bar input:focus{outline:none;border-color:var(--gold)}
+  .upd{color:#6a6a6a;font-size:12px;margin-bottom:14px}
+
+  .list{display:grid;gap:12px}
+  .lead{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
+    display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;animation:in .35s ease}
+  @keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .lead.new{border-color:var(--orange);box-shadow:0 0 0 1px rgba(255,107,0,.3)}
+  .who .name{font-family:"Montserrat";font-weight:700;font-size:17px;display:flex;align-items:center;gap:9px}
+  .badge{background:var(--orange);color:#0d0d0d;font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:20px;text-transform:uppercase}
+  .who .sub{color:var(--grey);font-size:13px;margin-top:3px;display:flex;gap:14px;flex-wrap:wrap}
+  .who .sub b{color:#d8d8d8;font-weight:500}
+  .who .time{color:#6a6a6a;font-size:12px;margin-top:4px}
+  .chat{display:inline-flex;align-items:center;gap:8px;background:var(--wa);color:#063d20;text-decoration:none;
+    font-weight:600;font-size:14px;padding:11px 18px;border-radius:11px;white-space:nowrap;transition:transform .12s}
+  .chat:hover{transform:translateY(-2px)}
+  .chat.off{background:#2a2a2a;color:#777;pointer-events:none}
+
+  .empty,.err{text-align:center;color:var(--grey);padding:60px 20px;border:1px dashed var(--line);border-radius:14px}
+  .empty .ico{font-size:34px;margin-bottom:10px}
+  .err{color:#f0a06a;border-color:rgba(255,107,0,.35)}
+  footer{margin-top:30px;color:#5b5b5b;font-size:12px;text-align:center}
+  footer b{color:var(--gold);font-family:"Montserrat";letter-spacing:.1em}
+  @media(max-width:560px){.lead{grid-template-columns:1fr}.chat{justify-content:center}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="ttl"><span class="dot"></span><div><h1>Panel de Leads</h1><span>Fénix Prime · Reto 7 Días</span></div></div>
+    <div class="meta">
+      <div class="live"><span class="pulse"></span>En vivo</div>
+      <div class="count"><b id="total">0</b><small>leads</small></div>
+    </div>
+  </header>
+
+  <div class="bar"><input id="search" type="text" placeholder="Buscar por nombre o número..."></div>
+  <div class="upd" id="upd">Conectando...</div>
+
+  <div class="list" id="list"></div>
+
+  <footer><b>FÉNIX PRIME</b> · El equipo solo da clic en Chatear. Se actualiza solo.</footer>
+</div>
+
+<script>
+  // ====== CONFIG ======
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxo97DYJUGXRDLqUTsGayTzulXiHts0XFsuOL4Mo5Y52VO3OXFr3JkgiHWC5UGKgYn_/exec";
+  const KEY = "fenix2026";
+  const POLL_MS = 8000;
+  // ====================
+
+  let leads = [];
+  let lastCount = 0;
+  let firstLoad = true;
+  const seen = new Set();
+
+  function waNumber(raw){
+    let d = String(raw||'').replace(/\D/g,'');
+    if(d.length===12 && d.slice(0,2)==='57') return d;
+    if(d.length===10) return '57'+d;
+    if(d.length>=11 && d.length<=13) return d;
+    return '';
+  }
+  function firstName(n){ return String(n||'').trim().split(/\s+/)[0] || ''; }
+  function welcome(n){
+    return `¡Hola ${firstName(n)}! 🔥 Soy del equipo de Fénix Prime. Ya tienes tu Reto 7 Días 💪 Quería darte la bienvenida y acompañarte para que de verdad sientas el cambio. ¿Empezamos hoy con el Día 1? 👊`;
+  }
+  function timeAgo(d){
+    if(!d) return '';
+    const t = new Date(d).getTime(); if(isNaN(t)) return '';
+    const s = Math.floor((Date.now()-t)/1000);
+    if(s<60) return 'hace un momento';
+    const m=Math.floor(s/60); if(m<60) return 'hace '+m+' min';
+    const h=Math.floor(m/60); if(h<24) return 'hace '+h+' h';
+    const dd=Math.floor(h/24); return 'hace '+dd+' d';
+  }
+  function key(l){ return (l.fecha||'')+'|'+(l.whatsapp||'')+'|'+(l.nombre||''); }
+
+  function render(){
+    const q = (document.getElementById('search').value||'').toLowerCase().trim();
+    const list = document.getElementById('list');
+    document.getElementById('total').textContent = leads.length;
+    const filtered = leads.filter(l => !q || (String(l.nombre||'').toLowerCase().includes(q) || String(l.whatsapp||'').includes(q)));
+    if(filtered.length===0){
+      list.innerHTML = '<div class="empty"><div class="ico">📭</div>'+(leads.length===0?'Aún no hay leads. Aparecerán aquí en tiempo real apenas alguien llene el formulario.':'Sin resultados para tu búsqueda.')+'</div>';
+      return;
+    }
+    list.innerHTML = filtered.map(l=>{
+      const num = waNumber(l.whatsapp);
+      const isNew = !seen.has(key(l)) && !firstLoad;
+      const chat = num
+        ? `<a class="chat" target="_blank" href="https://wa.me/${num}?text=${encodeURIComponent(welcome(l.nombre))}">💬 Chatear</a>`
+        : `<span class="chat off">Sin número</span>`;
+      return `<div class="lead ${isNew?'new':''}">
+        <div class="who">
+          <div class="name">${esc(l.nombre)||'Sin nombre'} ${isNew?'<span class="badge">Nuevo</span>':''}</div>
+          <div class="sub"><span>📱 <b>${esc(l.whatsapp)||'—'}</b></span>${l.correo?`<span>✉️ ${esc(l.correo)}</span>`:''}</div>
+          <div class="time">${timeAgo(l.fecha)}</div>
+        </div>
+        ${chat}
+      </div>`;
+    }).join('');
+    leads.forEach(l=>seen.add(key(l)));
+  }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  function applyData(data){
+    if(!data || data.error){
+      document.getElementById('upd').innerHTML = '⚠️ No se pudo conectar (revisa que la implementación esté en "Cualquier persona" y la clave correcta).';
+      if(leads.length===0) document.getElementById('list').innerHTML = '<div class="err">Sin conexión con la base de datos.</div>';
+      return;
+    }
+    leads = data.leads || [];
+    render();
+    firstLoad = false;
+    const now = new Date();
+    document.getElementById('upd').textContent = 'Actualizado a las '+now.toLocaleTimeString('es-CO');
+  }
+
+  // DEMO para previsualizar el diseño: abre con ?demo
+  function demoData(){
+    const now = Date.now();
+    return {leads:[
+      {fecha:new Date(now-30000), nombre:'María Gómez', whatsapp:'3144906088', correo:'maria@email.com', origen:'Reto 7 Dias'},
+      {fecha:new Date(now-600000), nombre:'Carlos Ruiz', whatsapp:'3001234567', correo:'', origen:'Reto 7 Dias'},
+      {fecha:new Date(now-7200000), nombre:'Ana Torres', whatsapp:'3209876543', correo:'ana@email.com', origen:'Reto 7 Dias'}
+    ]};
+  }
+
+  function poll(){
+    if(location.search.includes('demo')){ applyData(demoData()); return; }
+    const cb = 'cb_'+Date.now();
+    window[cb] = function(d){ applyData(d); cleanup(); };
+    const s = document.createElement('script');
+    s.src = SCRIPT_URL+'?key='+encodeURIComponent(KEY)+'&callback='+cb+'&t='+Date.now();
+    s.onerror = function(){ document.getElementById('upd').textContent='⚠️ Error de conexión. Reintentando...'; cleanup(); };
+    function cleanup(){ try{delete window[cb];}catch(e){} if(s.parentNode) s.parentNode.removeChild(s); }
+    document.body.appendChild(s);
+  }
+
+  document.getElementById('search').addEventListener('input', render);
+  poll();
+  setInterval(poll, POLL_MS);
+</script>
+</body>
+</html>
