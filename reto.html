@@ -201,13 +201,13 @@
     // guardar en tu base de datos (Google Sheets) si ya configuraste el script
     if(SCRIPT_URL && SCRIPT_URL.indexOf("__SCRIPT") === -1){
       try{
-        const fd = new FormData();
-        fd.append("nombre", nombre);
-        fd.append("whatsapp", whatsapp);
-        fd.append("correo", correo);
-        fd.append("consent", consent ? "Sí" : "No");
-        fd.append("origen", "Reto 7 Dias");
-        await fetch(SCRIPT_URL, { method:"POST", body:fd, mode:"no-cors" });
+        const params = new URLSearchParams();
+        params.append("nombre", nombre);
+        params.append("whatsapp", whatsapp);
+        params.append("correo", correo);
+        params.append("consent", consent ? "Sí" : "No");
+        params.append("origen", "Reto 7 Dias");
+        await fetch(SCRIPT_URL, { method:"POST", body:params, mode:"no-cors" });
       }catch(e){ /* no bloqueamos la entrega del PDF */ }
     }
 
