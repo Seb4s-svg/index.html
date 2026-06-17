@@ -64,6 +64,7 @@
     <div class="ttl"><span class="dot"></span><div><h1>Panel de Leads</h1><span>Fénix Prime · Reto 7 Días</span></div></div>
     <div class="meta"><div class="live"><span class="pulse"></span>En vivo</div>
       <div class="count"><b id="total">0</b><small>leads</small></div>
+      <div class="count"><b id="gest" style="color:#4cd183">0</b><small>gestionados</small></div>
       <div class="count"><b id="pend" style="color:var(--orange)">0</b><small>pendientes</small></div></div>
   </header>
   <div class="tools">
@@ -135,7 +136,9 @@
     const list=document.getElementById('list');
     const all=leads.map(merged);
     document.getElementById('total').textContent=all.length;
-    document.getElementById('pend').textContent=all.filter(l=>(l.estado||'Pendiente')!=='Gestionado').length;
+    var nGest=all.filter(l=>(l.estado||'Pendiente')==='Gestionado').length;
+    document.getElementById('gest').textContent=nGest;
+    document.getElementById('pend').textContent=all.length-nGest;
     let view=all.filter(l=>{
       if(filter==='pendiente' && (l.estado||'Pendiente')==='Gestionado') return false;
       if(filter==='gestionado' && (l.estado||'Pendiente')!=='Gestionado') return false;
