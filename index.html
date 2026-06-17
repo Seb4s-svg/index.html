@@ -94,6 +94,13 @@
   .frame{width:100%;height:80vh;border:1px solid var(--line);border-radius:14px;background:#000}
   .open{display:inline-block;margin-bottom:12px;font-size:14px;color:var(--orange);text-decoration:none;border-bottom:1px dashed rgba(255,107,0,.5)}
   footer{margin-top:34px;color:#5b5b5b;font-size:12px;text-align:center}footer b{color:var(--gold);font-family:"Montserrat";letter-spacing:.1em}
+
+  .month{font-family:"Montserrat";font-weight:900;font-size:26px;text-transform:uppercase;letter-spacing:.04em;color:var(--gold);margin:36px 0 4px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:6px 0 20px}
+  .metrics .m{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+  .metrics .m b{font-family:"Montserrat";font-weight:800;font-size:30px;display:block;line-height:1}
+  .metrics .m small{color:var(--grey);font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-top:7px;display:block}
+  @media(max-width:560px){.metrics{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -121,6 +128,13 @@
       
       <a class="tile" href="https://wa.me/573144906088" target="_blank"><div class="i">💬</div><div class="t">WhatsApp</div><div class="d">El número de ventas: 314 490 6088.</div></a>
     </div>
+    <h3>Métricas en vivo</h3>
+    <div class="metrics">
+      <div class="m"><b id="mTotal">–</b><small>Leads totales</small></div>
+      <div class="m"><b id="mGest" style="color:#4cd183">–</b><small>Gestionados</small></div>
+      <div class="m"><b id="mPend" style="color:var(--orange)">–</b><small>Pendientes</small></div>
+      <div class="m"><b id="mPct" style="color:var(--gold)">–</b><small>% gestionado</small></div>
+    </div>
     <div class="note"><b>Ritmo del sistema:</b> grabas el fin de semana → publicas toda la semana → los leads caen al panel → el equipo los gestiona y vende. Cada pestaña de arriba es una pieza de ese ritmo.</div>
   </div>
 
@@ -132,6 +146,7 @@
       • <b>Reel del día:</b> 7:00 PM lun–jue · 8:00 PM viernes · 11:00 AM fines de semana.<br>
       • <b>Historias:</b> 3 al día → 8:00 AM, 1:00 PM y 8:00 PM.<br>
       • <b>Ajústalo a TU gente:</b> revisa Instagram → Insights → Tu audiencia → Horas más activas.</div>
+    <div class="month">Junio 2026</div>
     <h3>Semana 1 · 22–28 jun — Recupera tu energía</h3>
     <div class="post">
       <div class="ph"><span class="pd">Lun 22 · 7:00 PM</span><span class="pillar p-mito">Mito</span></div>
@@ -212,6 +227,7 @@ Empieza tu cambio gratis: comenta RETO.
 
 #AntesYDespués #ResultadosReales #FénixPrime</div></div>
     </div>
+    <div class="month">Julio 2026</div>
     <h3>Semana 2 · 29 jun–5 jul — La verdad sobre la comida</h3>
     <div class="post">
       <div class="ph"><span class="pd">Lun 29 · 7:00 PM</span><span class="pillar p-mito">Mito</span></div>
@@ -594,6 +610,27 @@ Escríbeme FÉNIX y demos el primer paso juntos.
       setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('done');},1700);
     });
   });
+
+  // métricas en vivo (lee la misma base de datos)
+  (function(){
+    const HUB_URL="https://script.google.com/macros/s/AKfycbxo97DYJUGXRDLqUTsGayTzulXiHts0XFsuOL4Mo5Y52VO3OXFr3JkgiHWC5UGKgYn_/exec";
+    const HUB_KEY="fenix2026";
+    function set(id,v){const e=document.getElementById(id); if(e)e.textContent=v;}
+    function go(){
+      const cb='m_'+Date.now();
+      window[cb]=function(d){ try{
+        const ls=(d&&d.leads)||[]; const total=ls.length;
+        const gest=ls.filter(l=>(l.estado||'Pendiente')==='Gestionado').length;
+        set('mTotal',total); set('mGest',gest); set('mPend',total-gest);
+        set('mPct',(total?Math.round(gest/total*100):0)+'%');
+      }catch(e){} clean(); };
+      const sc=document.createElement('script');
+      sc.src=HUB_URL+'?key='+encodeURIComponent(HUB_KEY)+'&callback='+cb+'&t='+Date.now();
+      sc.onerror=clean; function clean(){try{delete window[cb]}catch(e){} if(sc.parentNode)sc.parentNode.removeChild(sc);}
+      document.body.appendChild(sc);
+    }
+    go(); setInterval(go, 15000);
+  })();
 </script>
 </body>
 </html>
